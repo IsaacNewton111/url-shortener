@@ -1,0 +1,5 @@
+rootProject.name = 'url-shortener'
+
+include 'url-shortener-server'
+include 'url-shortener-distribution'
+include 'url-shortener-api'

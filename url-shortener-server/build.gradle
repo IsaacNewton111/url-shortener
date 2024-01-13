@@ -1,0 +1,31 @@
+// =======
+// Plugins
+// =======
+apply from: "$rootDir/gradle/repositories.gradle"
+apply plugin: 'java'
+
+// ============
+// Dependencies
+// ============
+dependencies {
+    compile project(':url-shortener-api')
+    compile "io.dropwizard:dropwizard-core:$dropwizardVersion"
+    compile "io.dropwizard:dropwizard-jdbi3:$dropwizardVersion"
+
+    compile "org.antlr:stringtemplate:$antlrVersion"
+    compile "org.postgresql:postgresql:$postgresqlVersion"
+    compile "commons-codec:commons-codec:$commonsCodecVersion"
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "org.apache.directory.studio:org.apache.commons.io:$apacheCommonsVersion"
+    compile "org.immutables:value:$immutablesVersion"
+    
+    compile "javax.activation:activation:$activationVersion"
+    compile "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion"
+    compile "javax.xml.bind:jaxb-api:$jaxbVersion"
+
+
+    processor "org.immutables:value:2.8.2"
+    compileOnly "org.immutables:value:2.8.2"
+
+    testCompile "io.dropwizard:dropwizard-testing:$dropwizardVersion"
+}
