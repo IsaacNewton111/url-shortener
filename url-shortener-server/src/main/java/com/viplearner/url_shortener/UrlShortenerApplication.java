@@ -1,5 +1,7 @@
 package com.viplearner.url_shortener;
 
+import com.viplearner.url_shortener.resource.AccessShortUrlResource;
+import com.viplearner.url_shortener.resource.GetShortUrlResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -25,5 +27,7 @@ public final class UrlShortenerApplication extends Application<UrlShortenerConfi
         DatabaseBackend databaseBackend = configuration.getDatabaseBackend(environment);
 
         environment.jersey().register(new TestResource());
+        environment.jersey().register(new GetShortUrlResource(databaseBackend));
+        environment.jersey().register(new AccessShortUrlResource(databaseBackend));
     }
 }

@@ -1,16 +1,17 @@
 package com.viplearner.url_shortener;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.viplearner.url_shortener.backend.DatabaseBackend;
 import com.viplearner.url_shortener.backend.DatabaseConfiguration;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.viplearner.url_shortener.dto.UrlObject;
+import com.viplearner.url_shortener.mapper.UrlMapper;
 import io.dropwizard.Configuration;
 import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Environment;
 import org.immutables.value.Value;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
 
 /**
  * Server configuration for the url-shortener API server.
@@ -24,7 +25,8 @@ public abstract class UrlShortenerConfiguration extends Configuration {
 
     public Jdbi createDBI(Environment environment, String name) {
         final JdbiFactory factory = new JdbiFactory();
-        return factory.build(environment, getDatabaseConfiguration().getDataSourceFactory(), name);
+        Jdbi jdbi = factory.build(environment, getDatabaseConfiguration().getDataSourceFactory(), name);
+        return jdbi;
     }
 
     public DatabaseBackend getDatabaseBackend(Environment environment) {

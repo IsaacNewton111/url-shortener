@@ -12,7 +12,7 @@ mainClassName = "com.viplearner.url_shortener.UrlShortenerApplication"
 // Dependencies
 // ============
 dependencies {
-    runtime project(':url-shortener-server')
+    runtimeOnly project(':url-shortener-server')
 }
 
 tasks.getByName("distZip") {

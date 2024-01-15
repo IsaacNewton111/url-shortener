@@ -4,9 +4,9 @@
 database:
   connection:
     driverClass: org.postgresql.Driver
-    user: db_user
-    password: db_pass
-    url: jdbc:postgresql://localhost/dbname
+    user: url_shortener
+    password: 12345678
+    url: "jdbc:postgresql://127.0.0.1/url_shortener_db"
 
 # =============================================
 #                Server Settings
