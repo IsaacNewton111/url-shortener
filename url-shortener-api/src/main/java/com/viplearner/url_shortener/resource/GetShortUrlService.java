@@ -3,12 +3,13 @@ package com.viplearner.url_shortener.resource;
 import com.viplearner.url_shortener.resource.responses.GetShortUrlResponse;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
-@Path("get-short-url")
+@Path("url")
 public interface GetShortUrlService {
 
     @GET
-    @Consumes("application/json")
+    @Path("/get")
     @Produces("application/json")
-    GetShortUrlResponse getShortUrl(@QueryParam("url") String url);
+    Response getShortUrl(@QueryParam("url") String url);
 }

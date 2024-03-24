@@ -49,3 +49,20 @@ logging:
       threshold: INFO
     - type: console
       threshold: INFO
+
+swagger:
+  basePath: /swagger
+  resourcePackage: com.viplearner.url_shortener
+  scan: false
+  schemes:
+    - http
+    - https
+  info:
+    version: "1.0.0"
+    title: "URL Shortener"
+    description: ""
+    termsOfService: "http://swagger.io/terms/"
+    contact:
+      name: "URL Shortener"
+    license:
+      name: "Joshua Owolabi That's my name"

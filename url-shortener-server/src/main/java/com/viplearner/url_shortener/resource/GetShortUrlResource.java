@@ -5,12 +5,21 @@ import com.viplearner.url_shortener.dto.UrlObject;
 import com.viplearner.url_shortener.resource.responses.GetShortUrlResponse;
 import com.viplearner.url_shortener.utils.HexUtil;
 import com.viplearner.url_shortener.utils.UrlShortenerUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import javax.naming.spi.ResolveResult;
+import javax.ws.rs.core.Response;
 import org.postgresql.util.PSQLException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Api(
+        value = "get URL",
+        description = "Get short URL"
+)
 public class GetShortUrlResource implements GetShortUrlService {
     private final DatabaseBackend databaseBackend;
 
@@ -18,11 +27,19 @@ public class GetShortUrlResource implements GetShortUrlService {
         this.databaseBackend = databaseBackend;
     }
     @Override
-    public GetShortUrlResponse getShortUrl(final String url) {
-        System.out.printf("Received request to shorten url %s%n", url);
+    @ApiOperation(
+            value = "Get short URL",
+            response = Response.class
+    )
+    @ApiResponse(
+            code = 200,
+            message = "Short URL successfully created",
+            response = Response.class
+    )
+    public Response getShortUrl(final String url) {
         //check if url is valid
         if(!UrlShortenerUtils.isValidUrl(url)){
-            return new GetShortUrlResponse( "Invalid url", null);
+            return Response.ok(new GetShortUrlResponse( "Invalid url", null)).build();
         }
 
         String urlString = url;
@@ -34,7 +51,7 @@ public class GetShortUrlResource implements GetShortUrlService {
         //generate shortenedurl using hashing
         String shortUrl = getShortenedUrl();
         if(shortUrl == null){
-            return new GetShortUrlResponse("Error generating short url", null);
+            return Response.ok(new GetShortUrlResponse("Error generating short url", null)).build();
         }
 
         //add to database
@@ -42,9 +59,9 @@ public class GetShortUrlResource implements GetShortUrlService {
             databaseBackend.insertUrl(new UrlObject(urlString, shortUrl));
         }catch (Exception e){
             System.out.printf("Exception: %s", e);
-            return new GetShortUrlResponse("Looks like you already generated this url", String.format("%s",shortUrl));
+            return Response.ok(new GetShortUrlResponse("Looks like you already generated this url", String.format("%s",shortUrl))).build();
         }
-        return new GetShortUrlResponse("Success", String.format("%s",shortUrl));
+        return Response.ok(new GetShortUrlResponse("Success", String.format("%s",shortUrl))).build();
     }
 
     private String getShortenedUrl(){
